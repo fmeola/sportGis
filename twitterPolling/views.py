@@ -19,12 +19,5 @@ def index(request):
         if result.get('geo'):
             if result.get('geo').get('type') == 'Point':
                 filtered.append(result)
-#     if results.get('statuses'):
-#         for result in results['statuses']:
-#             print (result['coordinates'])
-#     twits = twitter.cursor(twitter.search , q='OrgulloItba')
-#     for t in twits:
-#         print (t['coordinates'])
-#     print(twits)
     return render(request, 'index.html', {'tweets' : filtered})
     

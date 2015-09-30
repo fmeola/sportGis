@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}" media="screen">
     <link rel="stylesheet" href="{% static 'leaflet.css' %}" />
     <script src="{% static 'leaflet.js' %}"></script>
+    <script src="{% static 'twitter.js' %}"></script>
 </head>
 <body>
 <div class="container">
@@ -38,11 +39,11 @@
             {% for tweet in tweets %}
                 <script>
                     var marker = L.marker([{{tweet.geo.coordinates.0}}, {{tweet.geo.coordinates.1}}]).addTo(map);
-                    marker.bindPopup(
-                        '<div class="container">' +
+                    var popup = L.popup().setContent('<div class="container">' +
                         '<p>{{tweet.text}}</p>' +
                         '<img src="{{tweet.user.profile_image_url_https}}">' +
                         '</div>');
+                    marker.bindPopup(popup);
                 </script>
                 <ul>
                     <img src="{{tweet.user.profile_image_url_https}}">

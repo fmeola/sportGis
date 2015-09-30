@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>twitterPolling</title>
     <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}" media="screen">
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css"/>
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script>
 </head>
 <body>
 <div class="container">
@@ -12,18 +14,35 @@
     </div>
     <div class="jumbotron">
         <h1>twitterPolling</h1>
-        <p>Hola!</p>
-        <p><a class="btn btn-primary btn-lg" href="#">Buscar!</a></p>
+        <!--<p><a class="btn btn-primary btn-lg" href="#">Buscar!</a></p>-->
     </div>
-    <div>
+
+    <!-- Prueba de un mapa -->
+    <h3>Mapa Leaflet</h3>
+    <div id="map" style="width: 800px; height: 200px"></div>
+
+    <script>
+        var map = L.map('map').setView([-34.575814, -58.475386], 10);
+        L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+            maxZoom: 18,
+            id: 'francoroman.cif6y5apf0sufs5ktwl0j56l1',
+            accessToken: 'pk.eyJ1IjoiZnJhbmNvcm9tYW4iLCJhIjoiY2lmNnk1Ynl2MGxpYnRxbTV5dWQ4cHpveCJ9.0AvZR59EKIGrOwWbzkhJMw'
+        }).addTo(map);
+    </script>
+
+
+    <h3>Tweets Georeferenciados</h3>
+    <div class="container">
         <ul>
             {% for tweet in tweets %}
-            <!-- 		{% if tweet.coordinates %} -->
-            <li><a>{{tweet.coordinates}}</a></li>
-            <!--         {% endif %} -->
+                {% if tweet.coordinates %}
+                    <li><a>{{tweet.coordinates}}</a></li>
+                {% endif %}
             {% endfor %}
         </ul>
     </div>
+
 </div>
 </body>
 </html>

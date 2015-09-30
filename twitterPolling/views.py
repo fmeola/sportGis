@@ -11,13 +11,21 @@ twitter = Twython(APP_KEY, APP_SECRET, oauth_version=2)
 ACCESS_TOKEN = twitter.obtain_access_token()
 
 def index(request):
+    text = "ITBA"
+    return render(request, 'index.html', {'tweets' : getTweets(text), 'text' : text})
+
+def searchText(request):
+    if request.method == 'POST':
+        text = request.POST.get('textfield', None)
+        return render(request, 'index.html', {'tweets' : getTweets(text), 'text' : text})
+
+def getTweets(text):
     twitter = Twython(APP_KEY, access_token=ACCESS_TOKEN)
-    results = twitter.search(q='argentina', count='100', geocode='-34.5965096,-58.3671446,20km')
-    print(results['statuses'].__len__())
+    results = twitter.search(q=text, count='100', geocode='-34.5965096,-58.3671446,20km')
+    #print(results['statuses'].__len__())
     filtered = list()
     for result in results['statuses']:
         if result.get('geo'):
             if result.get('geo').get('type') == 'Point':
                 filtered.append(result)
-    return render(request, 'index.html', {'tweets' : filtered})
-    
+    return filtered

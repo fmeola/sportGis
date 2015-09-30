@@ -13,6 +13,9 @@ ACCESS_TOKEN = twitter.obtain_access_token()
 def index(request):
     twitter = Twython(APP_KEY, access_token=ACCESS_TOKEN)
     twits = twitter.search(q='python')
+    for t in twits:
+        print(t.place)
+        print(t.place.bounding_box)
     print(twits)
     return render(request, 'index.html', {'twits' : twits})
     

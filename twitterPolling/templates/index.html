@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <title>twitterPolling</title>
     <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}" media="screen">
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css"/>
-    <script src="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script>
+    <link rel="stylesheet" href="{% static 'leaflet.css' %}" />
+    <script src="{% static 'leaflet.js' %}"></script>
 </head>
 <body>
 <div class="container">
@@ -36,9 +36,10 @@
     <div class="container">
         <ul>
             {% for tweet in tweets %}
-                {% if tweet.coordinates %}
-                    <li><a>{{tweet.coordinates}}</a></li>
-                {% endif %}
+                <script>
+                var marker = L.marker([-34.575814, -58.475386]).addTo(map);
+                </script>
+                <li><a>{{tweet.coordinates}}</a></li>
             {% endfor %}
         </ul>
     </div>

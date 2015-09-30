@@ -13,6 +13,10 @@ ACCESS_TOKEN = twitter.obtain_access_token()
 def index(request):
     twitter = Twython(APP_KEY, access_token=ACCESS_TOKEN)
     results = twitter.search(q='ITBA')
+    filtered = list()
+    for result in results['statuses']:
+        if result.get('coordinates'):
+            filtered.append(result)
 #     if results.get('statuses'):
 #         for result in results['statuses']:
 #             print (result['coordinates'])
@@ -20,5 +24,5 @@ def index(request):
 #     for t in twits:
 #         print (t['coordinates'])
 #     print(twits)
-    return render(request, 'index.html', {'tweets' : results['statuses']})
+    return render(request, 'index.html', {'tweets' : filtered})
     

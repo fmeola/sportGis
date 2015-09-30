@@ -12,12 +12,12 @@ ACCESS_TOKEN = twitter.obtain_access_token()
 
 def index(request):
     text = "ITBA"
-    return render(request, 'index.html', {'tweets' : getTweets(text), 'text' : text})
+    return render(request, 'twitter.html', {'tweets' : getTweets(text), 'text' : text})
 
 def searchText(request):
     if request.method == 'POST':
         text = request.POST.get('textfield', None)
-        return render(request, 'index.html', {'tweets' : getTweets(text), 'text' : text})
+        return render(request, 'twitter.html', {'tweets' : getTweets(text), 'text' : text})
 
 def getTweets(text):
     twitter = Twython(APP_KEY, access_token=ACCESS_TOKEN)

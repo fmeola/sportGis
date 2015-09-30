@@ -1,1 +1,8 @@
 HELLOWORLD
+<ul>
+{% for tweet in tweets %}
+<!-- 		{% if tweet.coordinates %} -->
+        	<li><a>{{tweet.coordinates}}</a></li>
+<!--         {% endif %} -->
+{% endfor %}
+</ul>

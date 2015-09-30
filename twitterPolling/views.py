@@ -12,10 +12,13 @@ ACCESS_TOKEN = twitter.obtain_access_token()
 
 def index(request):
     twitter = Twython(APP_KEY, access_token=ACCESS_TOKEN)
-    twits = twitter.search(q='python')
-    for t in twits:
-        print(t.place)
-        print(t.place.bounding_box)
-    print(twits)
-    return render(request, 'index.html', {'twits' : twits})
+    results = twitter.search(q='#River')
+#     if results.get('statuses'):
+#         for result in results['statuses']:
+#             print (result['coordinates'])
+#     twits = twitter.cursor(twitter.search , q='OrgulloItba')
+#     for t in twits:
+#         print (t['coordinates'])
+#     print(twits)
+    return render(request, 'index.html', {'tweets' : results['statuses']})
     

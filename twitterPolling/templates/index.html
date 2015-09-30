@@ -1,8 +1,29 @@
-HELLOWORLD
-<ul>
-{% for tweet in tweets %}
-<!-- 		{% if tweet.coordinates %} -->
-        	<li><a>{{tweet.coordinates}}</a></li>
-<!--         {% endif %} -->
-{% endfor %}
-</ul>
+{% load staticfiles %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>twitterPolling</title>
+    <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}" media="screen">
+</head>
+<body>
+<div class="container">
+    <div class="container">
+        <p></p>
+    </div>
+    <div class="jumbotron">
+        <h1>twitterPolling</h1>
+        <p>Hola!</p>
+        <p><a class="btn btn-primary btn-lg" href="#">Buscar!</a></p>
+    </div>
+    <div>
+        <ul>
+            {% for tweet in tweets %}
+            <!-- 		{% if tweet.coordinates %} -->
+            <li><a>{{tweet.coordinates}}</a></li>
+            <!--         {% endif %} -->
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+</body>
+</html>

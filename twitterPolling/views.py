@@ -12,7 +12,7 @@ ACCESS_TOKEN = twitter.obtain_access_token()
 
 def index(request):
     twitter = Twython(APP_KEY, access_token=ACCESS_TOKEN)
-    results = twitter.search(q='#River')
+    results = twitter.search(q='ITBA')
 #     if results.get('statuses'):
 #         for result in results['statuses']:
 #             print (result['coordinates'])

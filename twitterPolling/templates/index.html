@@ -1,5 +1,5 @@
 {% load staticfiles %}
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>twitterPolling</title>
@@ -19,10 +19,10 @@
 
     <!-- Prueba de un mapa -->
     <h3>Mapa Leaflet</h3>
-    <div id="map" style="width: 800px; height: 200px"></div>
+    <div id="map" style="width: 1000px; height: 600px"></div>
 
     <script>
-        var map = L.map('map').setView([-34.575814, -58.475386], 10);
+        var map = L.map('map').setView([-34.575814, -58.475386], 11);
         L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
             attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
             maxZoom: 18,
@@ -37,9 +37,20 @@
         <ul>
             {% for tweet in tweets %}
                 <script>
-                var marker = L.marker([-34.575814, -58.475386]).addTo(map);
+                    var marker = L.marker([{{tweet.geo.coordinates.0}}, {{tweet.geo.coordinates.1}}]).addTo(map);
+                    marker.bindPopup(
+                        '<div class="container">' +
+                        '<p>{{tweet.text}}</p>' +
+                        '<img src="{{tweet.user.profile_image_url_https}}">' +
+                        '</div>');
                 </script>
-                <li><a>{{tweet.coordinates}}</a></li>
+                <ul>
+                    <img src="{{tweet.user.profile_image_url_https}}">
+                    <li>{{tweet.user.name}}</li>
+                    <li><a>Posición: {{tweet.geo.coordinates.0}},{{tweet.geo.coordinates.1}}</a></li>
+                    <li>{{tweet.text}}</li>
+                </ul>
+                </br>
             {% endfor %}
         </ul>
     </div>

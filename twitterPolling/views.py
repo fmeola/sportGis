@@ -12,11 +12,13 @@ ACCESS_TOKEN = twitter.obtain_access_token()
 
 def index(request):
     twitter = Twython(APP_KEY, access_token=ACCESS_TOKEN)
-    results = twitter.search(q='ITBA')
+    results = twitter.search(q='argentina', count='100', geocode='-34.5965096,-58.3671446,20km')
+    print(results['statuses'].__len__())
     filtered = list()
     for result in results['statuses']:
-        if result.get('coordinates'):
-            filtered.append(result)
+        if result.get('geo'):
+            if result.get('geo').get('type') == 'Point':
+                filtered.append(result)
 #     if results.get('statuses'):
 #         for result in results['statuses']:
 #             print (result['coordinates'])

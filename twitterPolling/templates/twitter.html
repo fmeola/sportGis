@@ -1,22 +1,9 @@
-<!DOCTYPE html>
 {% extends "index.html" %}
-
 {% block twit %}
-
 <div class="container">
-	<script>
-	var marker = L.marker([{{tweet.geo.coordinates.0}}, {{tweet.geo.coordinates.1}}]).addTo(map);
-	var popup = L.popup().setContent('<div class="container">' +
-		'<img src="{{tweet.user.profile_image_url_https}}">' +
-		'<lu><li>{{tweet.user.name}}</li>' +
-		'<li><p>{{tweet.text}}</p><li></lu>' +
-		'</div>');
-	marker.bindPopup(popup);
-	</script>
 	<img src="{{tweet.user.profile_image_url_https}}">
 	<li>{{tweet.user.name}}</li>
 	<li><a>Posición: {{tweet.geo.coordinates.0}},{{tweet.geo.coordinates.1}}</a></li>
 	<li>{{tweet.text}}</li>
 </div>
-
 {% endblock %}

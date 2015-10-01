@@ -1,48 +1,48 @@
-{% load staticfiles %}
-<html xmlns="http://www.w3.org/1999/html">
-<head>
-	<meta charset="UTF-8">
-	<title>twitterPolling</title>
-	<link rel="stylesheet" href="{% static 'bootstrap.min.css' %}" media="screen">
-	<link rel="stylesheet" href="{% static 'leaflet.css' %}" />
-	<script src="{% static 'leaflet.js' %}"></script>
-	<script src="{% static 'twitter.js' %}"></script>
-</head>
-<body>
+{% extends "header.html" %}
+{% load staticfiles%}
+{% block content %}
+
+<div class="container">
 	<div class="container">
-		<div class="container">
-			<p></p>
-		</div>
-		<div class="jumbotron">
-			<h1>{{ text }}</h1> <h4>cerca de Buenos Aires</h4>
-		</div>
-
-		<form method="POST" action="/searchText/">
-			<div class="form-group">
-				{% csrf_token %}
-				<input type="text" name="textfield">
-				<button class="btn btn-primary" type="submit">Buscar!</button>
-			</div>
-		</form>
-
-		<h3>Mapa de Tweets</h3>
-		<div id="map" style="width: 1000px; height: 600px"></div>
-
-
-		<script src="{% static 'simpleMap.js' %}"></script>
-
-		<h3>Listado de Tweets</h3>
-		<div class="container">
-			<ul>
-				{% for tweet in tweets %}
-				
-				{% block twit %}{% endblock %}
-			</br>
-
-			{% endfor %}
-		</ul>
+		<p></p>
+	</div>
+	<div class="jumbotron">
+		<h1>{{ text }}</h1> <h4>cerca de Buenos Aires</h4>
 	</div>
 
+	<form method="POST" action="/searchText/">
+		<div class="form-group">
+			{% csrf_token %}
+			<input type="text" name="textfield">
+			<button class="btn btn-primary" type="submit">Buscar!</button>
+		</div>
+	</form>
+
+	<h3>Mapa de Tweets</h3>
+	<div id="map" style="width: 1000px; height: 600px"></div>
+	<script src="{% static 'simpleMap.js' %}"></script>
+
+	<h3>Listado de Tweets</h3>
+	<div class="container">
+		<ul>
+			{% for tweet in tweets %}
+			<script>
+			var marker = L.marker([{{tweet.geo.coordinates.0}}, {{tweet.geo.coordinates.1}}]).addTo(map);
+			var popup = L.popup().setContent('<div class="container">' +
+				'<img src="{{tweet.user.profile_image_url_https}}">' +
+				'<lu><li>{{tweet.user.name}}</li>' +
+				'<li><p>{{tweet.text}}</p><li></lu>' +
+				'</div>');
+			marker.bindPopup(popup);
+			</script>
+
+			{% block twit %}{% endblock %}
+		</br>
+
+		{% endfor %}
+	</ul>
 </div>
-</body>
-</html>
+
+</div>
+
+{% endblock %}

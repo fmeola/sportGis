@@ -12,17 +12,17 @@ APP_SECRET = 'nNeixWCJ4BdpAPxM0V9XB1IqFqKMjBAxq1TyyK0vhfpgK8NS75'
 twitter = Twython(APP_KEY, APP_SECRET, oauth_version=2)
 ACCESS_TOKEN = twitter.obtain_access_token()
 
-DEFAULT_MAX = 10
+DEFAULT_MAX = 20
 
 def index(request):
-    text = "#Boca"
+    text = "@Boca OR #BocaCampeonOtraVez OR #BocaCampeon"
     return render(request, 'twitter.html', {'tweets' : getTweets(text,DEFAULT_MAX), 'text' : text})
 def create_csv(list):
     with open("output.csv", "w") as f:
         writer = csv.writer(f)
-        writer.writerow(['id' , 'usr', 'lat', 'long'])
+        writer.writerow(['id' , 'usr', 'lat', 'long', 'created_at'])
         for twits in list:
-            writer.writerow([str(twits['id']), str(twits['user']['id']),str(twits['geo']['coordinates'][0]) , str(twits['geo']['coordinates'][1])])
+            writer.writerow([str(twits['id']), str(twits['user']['id']),str(twits['geo']['coordinates'][0]) , str(twits['geo']['coordinates'][1]), str(twits['created_at'])])
 def searchText(request):
     if request.method == 'POST':
         text = request.POST.get('textfield', None)
@@ -41,7 +41,7 @@ def getTweets(text, max_querys):
             results = twitter.search(q=text, count='100',result_type='recent', geocode='-34.5965096,-58.3671446,5000km')
 #             results = twitter.search(q=text, count='100',result_type='recent')
         else:
-            results = twitter.search(q=text, count='100',result_type='recent',max_id=since_id, geocode='-34.5965096,-58.3671446,5000km')
+            results = twitter.search(q=text, count='100',result_type='recent',max_id=since_id, geocode='-34.5965096,-58.3671446,3000km')
 #             results = twitter.search(q=text, count='100',result_type='recent',max_id=since_id)
         for result in results['statuses']:
 #           Lo tengo que hacer manualmente por que la api no me esta devolviendo el since_id

@@ -31,13 +31,15 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'twitterPolling',
+    'django.contrib.admin',
+    'django.contrib.gis',
+    'djgeojson',
+    'twitterPolling'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -77,10 +79,18 @@ WSGI_APPLICATION = 'sportGis.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.contrib.gis.db.backends.postgis', 
+        'NAME': 'geodjango',  # Name of your spatial database
+        'USER': 'leo',   # Database user 
+        'PASSWORD': '1234',# Database password 
+#         'HOST': '127.0.0.1',
+#         'PORT': '5432',                      
     }
-}
+ }
+ 
+# GEOS_LIBRARY_PATH = '<installdir>/postgresql/lib/libgeos_c.so'
+# GDAL_LIBRARY_PATH = '<installdir>/postgresql/lib/libgdal.so'
+# GDAL_DATA = '<installdir>/postgresql/share/gdal'
 
 
 # Internationalization

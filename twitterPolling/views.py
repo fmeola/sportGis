@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from twython import Twython
+from twitterPolling.models import States
+from django.contrib.gis.geos import Point
 # Create your views here.
 
 from django.http import HttpResponse
@@ -66,3 +68,24 @@ def download_csv(request):
     writer.writerow(['Second row', 'A', 'B', 'C', '"Testing"', "Here's a quote"])
 
     return response
+
+def compare(request):
+#     if request.method == 'POST':
+#         text = request.POST.get('textfield', None)
+    tweets = getTweets("#ArgentinaDebate",5)
+#     Make a dictionary from states
+    states_dic = {}
+    for state in States.objects.all():
+        states_dic[state.nombre] = state
+    for tweet in tweets:
+        pnt = Point(tweet['geo']['coordinates'][1], tweet['geo']['coordinates'][0])
+        print(str(Point.coords))
+        tweet_state = States.objects.filter(geom__intersects=pnt)
+        for state in tweet_state:
+            print("ENTRO")
+            states_dic[state.nombre].equipo = states_dic[state.nombre].equipo + 1  #Debug
+    for state in states_dic.values():
+        if state.equipo > 0:
+            print(state.nombre + "  " + str(state.equipo))
+#         Aca deberia hacer un topoJson con los nuevos resultados
+    return render(request, 'twitter.html', {'tweets' : tweets, 'text' : '#ArgentinaDebate'})

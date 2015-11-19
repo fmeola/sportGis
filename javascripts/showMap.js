@@ -1,16 +1,7 @@
 // tamaño del mapa
 var width = 700,
-    height = 800,
+    height = 700,
     centered;
-
-// Ajustes de proyección para mercator
-var projection = d3.geo.mercator()
-  // centro del mapa en grados
-  .center([-50, -35])
-  // zoomlevel
-  .scale(800)
-  // map-rotation
-  .rotate([0,0]);
 
 // Definimos "svg" como tipo de datos
 var svg = d3.select("section").append("svg")

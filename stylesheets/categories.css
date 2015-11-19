@@ -1,0 +1,50 @@
+path {
+  stroke: white;
+  stroke-width: 0.25px;
+  fill: grey;
+}
+
+.cat1 {
+  fill: #ca0020;
+}
+.cat2 {
+  fill: #dc494b;
+}
+.cat3 {
+  fill: #ef9277;
+}
+.cat4 {
+  fill: #f5c0a9;
+}
+.cat5 {
+  fill: #f6e4dd;
+}
+.cat6 {
+  fill: #e0ebf1;
+}
+.cat7 {
+  fill: #b3d5e6;
+}
+.cat8 {
+  fill: #82bbd8;
+}
+.cat9 {
+  fill: #4396c4;
+}
+.cat10 {
+  fill: #0571b0;
+}
+
+.hidden {
+  display: none;
+}
+
+div.tooltip {
+    color: #222;
+    background-color: #fff;
+    padding: .5em;
+    text-shadow: #f5f5f5 0 1px 0;
+    border-radius: 2px;
+    opacity: 0.9;
+    position: absolute;
+}

@@ -1,0 +1,113 @@
+<! DOCTYPE html>
+<charset meta = "UTF-8"/>
+<!-- Definición del estilo -->
+<style>
+path {
+  stroke: white;
+  stroke-width: 0.25px;
+  fill: grey;
+}
+
+.cat1 {
+  fill: #ca0020;
+}
+.cat2 {
+  fill: #dc494b;
+}
+.cat3 {
+  fill: #ef9277;
+}
+.cat4 {
+  fill: #f5c0a9;
+}
+.cat5 {
+  fill: #f6e4dd;
+}
+.cat6 {
+  fill: #e0ebf1;
+}
+.cat7 {
+  fill: #b3d5e6;
+}
+.cat8 {
+  fill: #82bbd8;
+}
+.cat9 {
+  fill: #4396c4;
+}
+.cat10 {
+  fill: #0571b0;
+}
+
+</style>
+<body>
+<script type="text/javascript" src="javascripts/d3.min.js"></script>
+<script src="javascripts/topojson.v0.min.js"></script>
+<h1>Tweets: Boca vs River</h1>
+<h5>Badi Leonel y Meola Franco</h5>
+<!-- Creación del mapa -->
+<script>
+	// tamaño del mapa
+	var width = 1000,
+		height = 600;
+ 
+	// Ajustes de proyección para mercator    
+	var projection = d3.geo.mercator()
+      // centro del mapa en grados
+      .center([-50, -35])
+      // zoomlevel
+      .scale(700)
+      // map-rotation
+      .rotate([0,0]);
+	  
+	// Definimos "svg" como tipo de datos
+	var svg = d3.select("body").append("svg")
+		.attr("width", width)
+		.attr("height", height);
+ 
+	// definimos el "path" como as return of geographic features
+	var path = d3.geo.path()
+		.projection(projection);
+	  
+	//agrupa las capas svg
+	var g = svg.append ("g");
+	  
+	// Carga de datos y visualización del mapa en el canvas
+	d3.json("tweets.json", function(error, topology) {
+		g.selectAll("path")
+			.data(topojson.object(topology, topology.objects.BocaVsRiver)
+			.geometries)
+		.enter()
+			.append("path")
+			.attr("d", path)
+			.attr("class",  function(d) { 
+				var diff = d.properties.diff;
+				if(diff == 0)
+					return "path";
+				if(diff == -49.0)
+					return "cat1";
+				if(diff > -49.0 && diff < -7.0) 
+					return "cat2";
+				if(diff >= -7.0 && diff < -3.0) 
+					return "cat3";
+				if(diff >= -3.0 && diff < -1.0)
+					return "cat4";
+				if(diff == -1.0)
+					return "cat5";
+				if(diff > -1.0 && diff < 3.0)
+					return "cat6";
+				if(diff >= 3.0 && diff < 6.0)
+					return "cat7";
+				if(diff >= 6.0 && diff < 12.0)
+					return "cat8";
+				if(diff >= 12.0 && diff < 20.0)
+					return "cat9";
+				if(diff >= 20.0 && diff < 170)
+					return "cat10";
+				})
+			
+	});
+ 
+</script>
+</body>
+</html>

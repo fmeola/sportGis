@@ -1,6 +1,7 @@
 // tamaño del mapa
-var width = 500,
-    height = 800;
+var width = 700,
+    height = 800,
+    centered;
 
 // Ajustes de proyección para mercator
 var projection = d3.geo.mercator()
@@ -16,6 +17,12 @@ var svg = d3.select("section").append("svg")
     .attr("width", width)
     .attr("height", height);
 
+svg.append("rect")
+    .attr("class", "background")
+    .attr("width", width)
+    .attr("height", height)
+    .on("click", clicked);
+
 // definimos el "path" como as return of geographic features
 var path = d3.geo.path()
     .projection(projection);
@@ -26,6 +33,36 @@ var g = svg.append ("g");
 //Tooltip
 var tooltip = d3.select("section").append('div')
     .attr('class', 'hidden tooltip');
+
+//Referencia
+var color = d3.scale.ordinal()
+    .domain(["-49", "-49 a -7", "-7 a -3", "-3 a 1", "-1 a 0", "0", "0 a 3", "3 a 6", "6 a 12", "12 a 20", "20 a 170"])
+    .range(["#ca0020", "#dc494b", "#ef9277","#f5c0a9","#f6e4dd", "#ffffff" ,"#e0ebf1","#b3d5e6","#82bbd8","#4396c4","0571b0"]);
+
+var legend = d3.select('svg')
+    .append("g")
+    .selectAll("g")
+    .data(color.domain())
+    .enter()
+    .append('g')
+      .attr('class', 'legend')
+      .attr('transform', function(d, i) {
+        var height = 20;
+        var x = 0;
+        var y = i * height;
+        return 'translate(' + x + ',' + y + ')';
+    });
+
+legend.append('rect')
+    .attr('width', 20)
+    .attr('height', 20)
+    .style('fill', color)
+    .style('stroke', color);
+
+legend.append('text')
+    .attr('x', 20 + 5)
+    .attr('y', 20 - 5)
+    .text(function(d) { return d; });
 
 // Carga de datos y visualización del mapa en el canvas
 d3.json("tweets.json", function(error, topology) {
@@ -75,5 +112,38 @@ d3.json("tweets.json", function(error, topology) {
             })
             .on('mouseout', function() {
                 tooltip.classed('hidden', true);
-            });
+            })
+            .on("click", clicked);
+
+/*    g.append("path")
+      .datum(topojson.mesh(topology, topology.objects.BocaVsRiver, function(a, b) { return a !== b; }))
+      .attr("id", "state-borders")
+      .attr("d", path);*/
+
 });
+
+function clicked(d) {
+  var x, y, k;
+
+  if (d && centered !== d) {
+    var centroid = path.centroid(d);
+    x = centroid[0];
+    y = centroid[1];
+    k = 4;
+    centered = d;
+  } else {
+    x = width / 2;
+    y = height / 2;
+    k = 1;
+    centered = null;
+  }
+
+  g.selectAll("path")
+      .classed("active", centered && function(d) { return d === centered; });
+
+  g.transition()
+      .duration(750)
+      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
+      .style("stroke-width", 1.5 / k + "px");
+}
+

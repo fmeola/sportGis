@@ -1,0 +1,9 @@
+{% extends "index.html" %}
+{% block twit %}
+<div class="container">
+	<img src="{{tweet.user.profile_image_url_https}}">
+	<li>{{tweet.user.name}}</li>
+	<li><a>Posición: {{tweet.geo.coordinates.0}},{{tweet.geo.coordinates.1}}</a></li>
+	<li>{{tweet.text}}</li>
+</div>
+{% endblock %}

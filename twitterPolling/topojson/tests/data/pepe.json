@@ -1,0 +1,1 @@
+{"type":"Topology","objects":{"square":{"type":"GeometryCollection","geometries":[{"type":"Polygon","properties":{"description":"A 20°x20° box surrounding Null Island."},"arcs":[[0]]}]}},"arcs":[[[0,9999],[9999,0],[0,-9999],[-9999,0],[0,9999]]],"transform":{"scale":[0.002000200020002,0.002000200020002],"translate":[-10,-10]}}

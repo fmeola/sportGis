@@ -13,6 +13,7 @@ class States(models.Model):
     geom = models.MultiPolygonField(srid=4326)
     objects = models.GeoManager()
     equipo = 0
+    
 
 # Auto-generated `LayerMapping` dictionary for States model
 states_mapping = {
@@ -25,5 +26,6 @@ states_mapping = {
     'hogares' : 'hogares',
     'viv_part' : 'viv_part',
     'viv_part_h' : 'viv_part_h',
+    'equipo' : 'equipo',
     'geom' : 'MULTIPOLYGON',
 }
